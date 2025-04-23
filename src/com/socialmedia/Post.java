@@ -1,5 +1,3 @@
-
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,6 +10,7 @@ public class Post implements Serializable {
     private PostType type;
     private String mediaUrl;
     private boolean isPublished;
+    private String author;
 
     // Overloaded constructors
     public Post(String content) {
@@ -24,6 +23,11 @@ public class Post implements Serializable {
         this(content);
         this.scheduledTime = scheduledTime;
         this.hashtags = hashtags;
+    }
+
+    public Post(String content, LocalDateTime scheduledTime, List<String> hashtags, String author) {
+        this(content, scheduledTime, hashtags);
+        this.author = author;
     }
 
     // Overloaded methods
@@ -56,6 +60,14 @@ public class Post implements Serializable {
 
     public void setPublished(boolean published) {
         isPublished = published;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     // Nested enum for post types
