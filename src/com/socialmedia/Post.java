@@ -2,6 +2,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Post implements Serializable {
     private String content;
@@ -11,12 +13,14 @@ public class Post implements Serializable {
     private String mediaUrl;
     private boolean isPublished;
     private String author;
+    private Set<String> likedBy;  // Set of usernames who liked the post
 
     // Overloaded constructors
     public Post(String content) {
         this.content = content;
         this.hashtags = new ArrayList<>();
         this.isPublished = false;
+        this.likedBy = new HashSet<>();
     }
 
     public Post(String content, LocalDateTime scheduledTime, List<String> hashtags) {
@@ -39,6 +43,27 @@ public class Post implements Serializable {
         for (String hashtag : hashtags) {
             this.hashtags.add(hashtag);
         }
+    }
+
+    // Like methods
+    public void like(String username) {
+        likedBy.add(username);
+    }
+
+    public void unlike(String username) {
+        likedBy.remove(username);
+    }
+
+    public boolean isLikedBy(String username) {
+        return likedBy.contains(username);
+    }
+
+    public int getLikeCount() {
+        return likedBy.size();
+    }
+
+    public Set<String> getLikedBy() {
+        return new HashSet<>(likedBy);  // Return a copy to prevent external modification
     }
 
     // Getters and setters
