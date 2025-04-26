@@ -1,0 +1,19 @@
+Folder Structure:
+- src/com/socialmedia/ 
+
+All files are part of the package: com.socialmedia
+
+
+Open cmd
+
+CD to src
+
+RUN:  javac com/socialmedia/*.java
+
+RUN :  java com.socialmedia.Main
+
+
+-Shreyas Sinha 2022AAPS0799G 
+-Riddhanya  Senapathi
+-Rudraksh
+-Aditi

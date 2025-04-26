@@ -1,4 +1,5 @@
 
+package com.socialmedia;
 
 import java.io.*;
 import java.util.*;
@@ -63,11 +64,10 @@ public class SocialMediaManager {
         }
     }
 
-    // Main method for demonstration
+  
     public static void main(String[] args) {
         SocialMediaManager manager = new SocialMediaManager(true);
         
-        // Example usage
         User admin = new User("admin", "admin@example.com", "password", User.UserRole.ADMIN);
         manager.addUser(admin);
 

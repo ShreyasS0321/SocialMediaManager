@@ -1,3 +1,6 @@
+package com.socialmedia;
+
+// wrappers here
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,9 +14,13 @@ public class Post implements Serializable {
     private List<String> hashtags;
     private PostType type;
     private String mediaUrl;
-    private boolean isPublished;
+    private Boolean isPublished;
     private String author;
-    private Set<String> likedBy;  // Set of usernames who liked the post
+    private Set<String> likedBy;  
+    private Integer viewCount;
+    private Integer shareCount;
+    private Integer commentCount;
+    private Double engagementRate;
 
     // Overloaded constructors
     public Post(String content) {
@@ -21,6 +28,10 @@ public class Post implements Serializable {
         this.hashtags = new ArrayList<>();
         this.isPublished = false;
         this.likedBy = new HashSet<>();
+        this.viewCount = 0;
+        this.shareCount = 0;
+        this.commentCount = 0;
+        this.engagementRate = 0.0;
     }
 
     public Post(String content, LocalDateTime scheduledTime, List<String> hashtags) {
@@ -48,22 +59,66 @@ public class Post implements Serializable {
     // Like methods
     public void like(String username) {
         likedBy.add(username);
+        updateEngagementRate();
     }
 
     public void unlike(String username) {
         likedBy.remove(username);
+        updateEngagementRate();
     }
 
     public boolean isLikedBy(String username) {
         return likedBy.contains(username);
     }
 
-    public int getLikeCount() {
+    public Integer getLikeCount() {
         return likedBy.size();
     }
 
     public Set<String> getLikedBy() {
-        return new HashSet<>(likedBy);  // Return a copy to prevent external modification
+        return new HashSet<>(likedBy);  
+    }
+
+    // View methods
+    public void incrementViewCount() {
+        viewCount++;
+        updateEngagementRate();
+    }
+
+    public Integer getViewCount() {
+        return viewCount;
+    }
+
+    // Share methods
+    public void incrementShareCount() {
+        shareCount++;
+        updateEngagementRate();
+    }
+
+    public Integer getShareCount() {
+        return shareCount;
+    }
+
+    // Comment methods
+    public void incrementCommentCount() {
+        commentCount++;
+        updateEngagementRate();
+    }
+
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    // Engagement rate calculation try again once to debug
+    private void updateEngagementRate() {
+        if (viewCount > 0) {
+            Double totalEngagement = Double.valueOf(getLikeCount() + shareCount + commentCount);
+            engagementRate = (totalEngagement / viewCount) * 100;
+        }
+    }
+
+    public Double getEngagementRate() {
+        return engagementRate;
     }
 
     // Getters and setters
@@ -79,11 +134,11 @@ public class Post implements Serializable {
         return hashtags;
     }
 
-    public boolean isPublished() {
+    public Boolean isPublished() {
         return isPublished;
     }
 
-    public void setPublished(boolean published) {
+    public void setPublished(Boolean published) {
         isPublished = published;
     }
 
@@ -101,5 +156,18 @@ public class Post implements Serializable {
         IMAGE,
         VIDEO,
         LINK
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "content='" + content + '\'' +
+                ", author='" + author + '\'' +
+                ", likes=" + getLikeCount() +
+                ", views=" + viewCount +
+                ", shares=" + shareCount +
+                ", comments=" + commentCount +
+                ", engagementRate=" + String.format("%.2f", engagementRate) + "%" +
+                '}';
     }
 } 

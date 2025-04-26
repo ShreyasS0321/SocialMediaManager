@@ -1,3 +1,5 @@
+package com.socialmedia;
+
 public interface ContentManagement {
     void scheduleContent(String content, String platform);
     void scheduleContent(String content, String platform, String... hashtags);

@@ -1,3 +1,5 @@
+package com.socialmedia;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,18 +21,18 @@ public abstract class SocialMediaPlatform {
         this.apiSecret = apiSecret;
     }
 
-    // Abstract methods that must be implemented by subclasses
+    // Abstract methods 
     public abstract void authenticate();
     public abstract void postContent(Post post);
     public abstract Analytics getAnalytics();
     public abstract List<Post> getScheduledPosts();
 
-    // Common methods for all platforms
+    // Common methods 
     public String getPlatformName() {
         return platformName;
     }
 
-    // Nested interface for platform-specific features
+    // Nested interface
     public interface PlatformFeatures {
         void enableAutoPosting();
         void disableAutoPosting();

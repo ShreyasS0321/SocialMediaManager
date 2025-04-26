@@ -1,3 +1,5 @@
+package com.socialmedia;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

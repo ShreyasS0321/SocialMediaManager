@@ -1,3 +1,5 @@
+package com.socialmedia;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -58,10 +60,10 @@ public class InstagramPlatform extends SocialMediaPlatform implements SocialMedi
     public Analytics getAnalytics() {
         Random random = new Random();
         return new Analytics(
-            random.nextInt(1000),  // likes
-            random.nextInt(100),   // shares
-            random.nextInt(50),    // comments
-            followerCount          // followers
+            random.nextInt(1000),
+            random.nextInt(100),   
+            random.nextInt(50),    
+            followerCount          
         );
     }
 
@@ -70,7 +72,6 @@ public class InstagramPlatform extends SocialMediaPlatform implements SocialMedi
         return posts;
     }
 
-    // Implementation of PlatformFeatures interface
     @Override
     public void enableAutoPosting() {
         autoPostingEnabled = true;
@@ -89,7 +90,7 @@ public class InstagramPlatform extends SocialMediaPlatform implements SocialMedi
         System.out.println("Posting schedule set to: " + schedule);
     }
 
-    // Instagram-specific methods
+  
     public void addStory(Post story) {
         stories.add(story);
         System.out.println("Story added: " + story.getContent());
@@ -112,7 +113,7 @@ public class InstagramPlatform extends SocialMediaPlatform implements SocialMedi
         System.out.println("Unfollowed user: " + username);
     }
 
-    // Overloaded methods for hashtag suggestions
+    
     public void addHashtagSuggestion(String hashtag) {
         hashtagSuggestions.add(hashtag);
     }
@@ -123,7 +124,7 @@ public class InstagramPlatform extends SocialMediaPlatform implements SocialMedi
         }
     }
 
-    // Nested class for Instagram-specific features
+    
     public static class InstagramStory {
         private String mediaUrl;
         private Integer duration;
@@ -157,7 +158,7 @@ public class InstagramPlatform extends SocialMediaPlatform implements SocialMedi
         }
     }
 
-    // Getter methods
+
     public int getFollowerCount() {
         return followerCount;
     }

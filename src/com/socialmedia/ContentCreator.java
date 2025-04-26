@@ -1,3 +1,5 @@
+package com.socialmedia;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +9,7 @@ public class ContentCreator extends User implements ContentManagement {
     private int totalLikes;
     private List<String> followers;
 
-    // Nested class for content categories
+  
     public static class ContentCategory {
         private String name;
         private String description;
@@ -120,7 +122,7 @@ public class ContentCreator extends User implements ContentManagement {
         return followers.size();
     }
 
-    // Implementation of ContentManagement interface
+   
     @Override
     public void scheduleContent(String content, String platform) {
         System.out.println("Scheduling content for " + platform + ": " + content);

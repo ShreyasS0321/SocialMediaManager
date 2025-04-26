@@ -1,3 +1,12 @@
+package com.socialmedia;
+
+
+//whenever editing repo, ensure to add comments for the rubric requirements
+//remember package adding
+//wrappers to use
+// read how to use  Consume newline
+//integrate with python?
+//GUI ?
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -91,7 +100,7 @@ public class Main {
         System.out.println("4. Manage Social Media");
         System.out.println("5. Schedule Posts");
         
-        // Add admin-specific options
+       
         if (currentUser instanceof Admin) {
             System.out.println("6. View All Users");
             System.out.println("7. View User Posts");
@@ -105,8 +114,7 @@ public class Main {
         }
         
         int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
+        scanner.nextLine(); 
         switch (choice) {
             case 1:
                 createPost(scanner);
@@ -171,7 +179,7 @@ public class Main {
         System.out.print("Enter your choice (1-3): ");
         
         int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine(); 
 
         switch (choice) {
             case 1:
@@ -209,7 +217,7 @@ public class Main {
         System.out.print("Enter your choice (1-3): ");
         
         int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine(); 
 
         switch (choice) {
             case 1:
@@ -244,7 +252,7 @@ public class Main {
         System.out.println("\n=== Schedule Posts ===");
         System.out.print("Enter number of posts to schedule: ");
         int count = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine(); 
         
         for (int i = 0; i < count; i++) {
             System.out.println("\nPost #" + (i + 1));
@@ -252,7 +260,7 @@ public class Main {
             String content = scanner.nextLine();
             System.out.print("Enter number of hashtags: ");
             int hashtagCount = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine(); 
             
             List<String> hashtags = new ArrayList<>();
             for (int j = 0; j < hashtagCount; j++) {
@@ -294,7 +302,7 @@ public class Main {
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
         
-        // Only show admin role option if current user is admin
+     
         boolean isAdmin = currentUser != null && currentUser.getRole() == User.UserRole.ADMIN;
         
         System.out.println("Select role (1-3):");
@@ -310,7 +318,7 @@ public class Main {
         } else {
             if (roleChoice == 1 || roleChoice == 2) {
                 newUser = new ContentCreator(username, email, password);
-                // Add default content categories for content creators
+              
                 ((ContentCreator) newUser).addContentCategory("General");
             } else {
                 newUser = new User(username, email, password, User.UserRole.MARKETING_ANALYST);
@@ -364,6 +372,10 @@ public class Main {
                 System.out.println("Hashtags: " + post.getHashtags());
                 System.out.println("Scheduled Time: " + post.getScheduledTime());
                 System.out.println("Likes: " + post.getLikeCount());
+                System.out.println("Views: " + post.getViewCount());
+                System.out.println("Shares: " + post.getShareCount());
+                System.out.println("Comments: " + post.getCommentCount());
+                System.out.println("Engagement Rate: " + String.format("%.2f", post.getEngagementRate()) + "%");
                 System.out.println("-------------------");
                 postNumber++;
             }
@@ -371,16 +383,125 @@ public class Main {
         
         System.out.println("\nOptions:");
         System.out.println("1. Like a post");
-        System.out.println("2. Return to main menu");
-        System.out.print("Enter your choice (1-2): ");
+        System.out.println("2. View a post");
+        System.out.println("3. Share a post");
+        System.out.println("4. Comment on a post");
+        System.out.println("5. Return to main menu");
+        System.out.print("Enter your choice (1-5): ");
         
         Scanner scanner = new Scanner(System.in);
         int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine(); 
         
-        if (choice == 1) {
-            likePost(scanner, true);
+        switch (choice) {
+            case 1:
+                likePost(scanner, true);
+                break;
+            case 2:
+                viewPost(scanner, true);
+                break;
+            case 3:
+                sharePost(scanner, true);
+                break;
+            case 4:
+                commentOnPost(scanner, true);
+                break;
         }
+    }
+
+    private static void viewPost(Scanner scanner, boolean isMyPosts) {
+        System.out.println("\n=== View a Post ===");
+        System.out.print("Enter post number to view: ");
+        int postNumber = scanner.nextInt();
+        scanner.nextLine(); 
+        
+        int currentNumber = 1;
+        boolean found = false;
+        
+        for (Post post : posts) {
+            if ((isMyPosts && post.getAuthor().equals(currentUser.getUsername())) ||
+                (!isMyPosts && post.getAuthor().equals(currentUser.getUsername()))) {
+                if (currentNumber == postNumber) {
+                    post.incrementViewCount();
+                    System.out.println("\nPost Content: " + post.getContent());
+                    System.out.println("Views: " + post.getViewCount());
+                    found = true;
+                    break;
+                }
+                currentNumber++;
+            }
+        }
+        
+        if (!found) {
+            System.out.println("Invalid post number!");
+        }
+        
+        System.out.println("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
+
+    private static void sharePost(Scanner scanner, boolean isMyPosts) {
+        System.out.println("\n=== Share a Post ===");
+        System.out.print("Enter post number to share: ");
+        int postNumber = scanner.nextInt();
+        scanner.nextLine(); 
+        
+        int currentNumber = 1;
+        boolean found = false;
+        
+        for (Post post : posts) {
+            if ((isMyPosts && post.getAuthor().equals(currentUser.getUsername())) ||
+                (!isMyPosts && post.getAuthor().equals(currentUser.getUsername()))) {
+                if (currentNumber == postNumber) {
+                    post.incrementShareCount();
+                    System.out.println("Post shared successfully!");
+                    System.out.println("Total shares: " + post.getShareCount());
+                    found = true;
+                    break;
+                }
+                currentNumber++;
+            }
+        }
+        
+        if (!found) {
+            System.out.println("Invalid post number!");
+        }
+        
+        System.out.println("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
+
+    private static void commentOnPost(Scanner scanner, boolean isMyPosts) {
+        System.out.println("\n=== Comment on a Post ===");
+        System.out.print("Enter post number to comment on: ");
+        int postNumber = scanner.nextInt();
+        scanner.nextLine(); 
+        
+        int currentNumber = 1;
+        boolean found = false;
+        
+        for (Post post : posts) {
+            if ((isMyPosts && post.getAuthor().equals(currentUser.getUsername())) ||
+                (!isMyPosts && post.getAuthor().equals(currentUser.getUsername()))) {
+                if (currentNumber == postNumber) {
+                    System.out.print("Enter your comment: ");
+                    String comment = scanner.nextLine();
+                    post.incrementCommentCount();
+                    System.out.println("Comment added successfully!");
+                    System.out.println("Total comments: " + post.getCommentCount());
+                    found = true;
+                    break;
+                }
+                currentNumber++;
+            }
+        }
+        
+        if (!found) {
+            System.out.println("Invalid post number!");
+        }
+        
+        System.out.println("\nPress Enter to continue...");
+        scanner.nextLine();
     }
 
     private static void viewAnalytics() {
@@ -491,7 +612,7 @@ public class Main {
             System.out.print("Enter your choice (1-2): ");
             
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+            scanner.nextLine(); 
             
             if (choice == 1) {
                 likePost(scanner, false);
@@ -503,7 +624,7 @@ public class Main {
         System.out.println("\n=== Like a Post ===");
         System.out.print("Enter post number to like: ");
         int postNumber = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine(); 
         
         int currentNumber = 1;
         boolean found = false;
@@ -547,7 +668,7 @@ public class Main {
         System.out.print("Enter your choice (1-3): ");
         
         int choice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine(); 
 
         switch (choice) {
             case 1:

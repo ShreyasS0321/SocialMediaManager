@@ -1,3 +1,5 @@
+package com.socialmedia;
+
 import java.io.*;
 import java.util.Scanner;
 
@@ -51,7 +53,7 @@ public class FileManager {
         }
     }
 
-    // Custom exception
+
     public static class FileManagerException extends Exception {
         public FileManagerException(String message) {
             super(message);
